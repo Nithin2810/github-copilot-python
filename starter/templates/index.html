@@ -1,18 +1,72 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sudoku Game</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <h1>Sudoku Game</h1>
-  <div id="sudoku-board"></div>
-  <div class="controls">
-    <button id="new-game">New Game</button>
-    <button id="check-solution">Check Solution</button>
-    <span id="message"></span>
-  </div>
-  <script src="/static/main.js"></script>
+  <header class="site-header">
+    <div class="header-content">
+      <h1>Sudoku Game</h1>
+      <button id="theme-toggle" class="theme-toggle" type="button"
+              aria-pressed="false">
+        Switch to dark mode
+      </button>
+    </div>
+  </header>
+  <main class="game-container">
+    <div class="timer-panel" aria-label="Game timer">
+      <span class="timer-label">Time</span>
+      <output id="timer-display" class="timer-display" aria-live="off">00:00</output>
+    </div>
+    <div id="sudoku-board" aria-label="Sudoku board"></div>
+    <div class="controls">
+      <label class="difficulty-control" for="difficulty-select">
+        Difficulty
+        <select id="difficulty-select">
+          <option value="Easy">Easy</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </label>
+      <button id="new-game" type="button">New Game</button>
+      <button id="hint-button" type="button">Hint</button>
+      <button id="check-solution" type="button">Check Solution</button>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </div>
+    <section class="leaderboard" aria-labelledby="leaderboard-title">
+      <h2 id="leaderboard-title">Top 10 Fastest Times</h2>
+      <div class="leaderboard-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Name</th>
+              <th scope="col">Time</th>
+              <th scope="col">Difficulty</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+      <p id="leaderboard-empty" class="leaderboard-empty">
+        Complete a game to add your time.
+      </p>
+    </section>
+    <dialog id="player-dialog" class="player-dialog"
+            aria-labelledby="player-dialog-title">
+      <form id="player-form">
+        <h2 id="player-dialog-title">Victory!</h2>
+        <p id="win-summary"></p>
+        <label for="player-name">Name for the leaderboard</label>
+        <input id="player-name" name="player-name" type="text"
+               maxlength="40" autocomplete="nickname" required>
+        <button type="submit">Save Time</button>
+      </form>
+    </dialog>
+  </main>
+  <script src="/static/main.js" defer></script>
 </body>
 </html>
