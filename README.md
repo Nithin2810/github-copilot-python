@@ -1,3 +1,7 @@
+## Application Preview
+
+![Sudoku Web App]<img width="960" height="540" alt="Screenshot 2026-11-18 150335" src="https://github.com/user-attachments/assets/aba6090b-7c8e-462b-8f80-511638197350" />
+
 # Refactor a Sudoku Game written in Python Flask
 
 Use this simple Sudoku game as a starting point to practice your skills with GitHub Copilot. The goal is to refactor the code to use modern technologies, while also adding new features and improving the overall user experience.
