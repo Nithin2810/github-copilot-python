@@ -1,416 +1,418 @@
 :root {
-  color-scheme: light;
-  --page-background: #f4f6fb;
-  --surface: #ffffff;
-  --text: #1f2937;
-  --muted-text: #475569;
-  --cell-background: #ffffff;
-  --subgrid-background: #eef2f8;
-  --prefilled-text: #0f172a;
-  --border: #cbd5e1;
-  --strong-border: #334155;
-  --focus: #2563eb;
-  --focus-background: #dbeafe;
-  --button-background: #2563eb;
-  --button-hover: #1d4ed8;
-  --button-text: #ffffff;
-  --incorrect-background: #fee2e2;
-  --incorrect-text: #991b1b;
-  --success-text: #15803d;
-  --message-text: #475569;
-  --shadow: 0 8px 24px rgb(15 23 42 / 10%);
-  --header-border: #e2e8f0;
+    color-scheme: light;
+    --page-background: #f4f6fb;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --muted-text: #475569;
+    --cell-background: #ffffff;
+    --subgrid-background: #eef2f8;
+    --prefilled-text: #0f172a;
+    --border: #cbd5e1;
+    --strong-border: #334155;
+    --focus: #2563eb;
+    --focus-background: #dbeafe;
+    --button-background: #2563eb;
+    --button-hover: #1d4ed8;
+    --button-text: #ffffff;
+    --incorrect-background: #fee2e2;
+    --incorrect-text: #991b1b;
+    --success-text: #15803d;
+    --message-text: #475569;
+    --shadow: 0 8px 24px rgb(15 23 42 / 10%);
+    --header-border: #e2e8f0;
 }
 
 :root[data-theme="dark"] {
-  color-scheme: dark;
-  --page-background: #111827;
-  --surface: #1f2937;
-  --text: #e5e7eb;
-  --muted-text: #cbd5e1;
-  --cell-background: #1f2937;
-  --subgrid-background: #273449;
-  --prefilled-text: #f8fafc;
-  --border: #64748b;
-  --strong-border: #cbd5e1;
-  --focus: #93c5fd;
-  --focus-background: #1e3a5f;
-  --button-background: #2563eb;
-  --button-hover: #3b82f6;
-  --button-text: #ffffff;
-  --incorrect-background: #7f1d1d;
-  --incorrect-text: #fee2e2;
-  --success-text: #86efac;
-  --message-text: #cbd5e1;
-  --shadow: 0 8px 24px rgb(0 0 0 / 30%);
-  --header-border: #374151;
+    color-scheme: dark;
+    --page-background: #111827;
+    --surface: #1f2937;
+    --text: #e5e7eb;
+    --muted-text: #cbd5e1;
+    --cell-background: #1f2937;
+    --subgrid-background: #273449;
+    --prefilled-text: #f8fafc;
+    --border: #64748b;
+    --strong-border: #cbd5e1;
+    --focus: #93c5fd;
+    --focus-background: #1e3a5f;
+    --button-background: #2563eb;
+    --button-hover: #3b82f6;
+    --button-text: #ffffff;
+    --incorrect-background: #7f1d1d;
+    --incorrect-text: #fee2e2;
+    --success-text: #86efac;
+    --message-text: #cbd5e1;
+    --shadow: 0 8px 24px rgb(0 0 0 / 30%);
+    --header-border: #374151;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  min-width: 280px;
-  min-height: 100vh;
-  margin: 0;
-  background: var(--page-background);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  transition: background-color 180ms ease, color 180ms ease;
+    min-width: 280px;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--page-background);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+    transition: background-color 180ms ease, color 180ms ease;
 }
 
 .site-header {
-  border-bottom: 1px solid var(--header-border);
-  background: var(--surface);
+    border-bottom: 1px solid var(--header-border);
+    background: var(--surface);
+}
+
+.sudoku-cell.conflict,
+.sudoku-cell.incorrect {
+    background-color: #ffcccc !important;
+    color: #cc0000 !important;
+    font-weight: bold;
 }
 
 .header-content {
-  display: flex;
-  width: min(100% - 32px, 960px);
-  min-height: 76px;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+    display: flex;
+    width: min(100% - 32px, 960px);
+    min-height: 76px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
 }
 
 h1 {
-  margin: 0;
-  font-size: clamp(1.4rem, 4vw, 2rem);
+    margin: 0;
+    font-size: clamp(1.4rem, 4vw, 2rem);
 }
 
 .game-container {
-  display: flex;
-  width: min(100% - 24px, 560px);
-  margin: 0 auto;
-  padding: clamp(20px, 5vw, 40px) 0;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    width: min(100% - 24px, 560px);
+    margin: 0 auto;
+    padding: clamp(20px, 5vw, 40px) 0;
+    flex-direction: column;
+    align-items: center;
 }
 
 .timer-panel {
-  display: flex;
-  width: min(100%, 520px);
-  min-height: 60px;
-  margin-bottom: 12px;
-  padding: 8px 18px;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
+    display: flex;
+    width: min(100%, 520px);
+    min-height: 60px;
+    margin-bottom: 12px;
+    padding: 8px 18px;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
 }
 
 .timer-label {
-  color: var(--muted-text);
-  font-size: 1rem;
-  font-weight: 600;
+    color: var(--muted-text);
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .timer-display {
-  color: var(--text);
-  font-size: clamp(1.5rem, 6vw, 2rem);
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
+    color: var(--text);
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
 }
 
 #sudoku-board {
-  display: grid;
-  width: min(100%, 520px);
-  aspect-ratio: 1;
-  grid-template-rows: repeat(9, minmax(0, 1fr));
-  overflow: hidden;
-  border: 2px solid var(--strong-border);
-  border-radius: 6px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
+    display: grid;
+    width: min(100%, 520px);
+    aspect-ratio: 1;
+    grid-template-rows: repeat(9, minmax(0, 1fr));
+    overflow: hidden;
+    border: 2px solid var(--strong-border);
+    border-radius: 6px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
 }
 
 .sudoku-row {
-  display: grid;
-  min-height: 0;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+    display: grid;
+    min-height: 0;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
 }
 
 .sudoku-cell {
-  width: 100%;
-  min-width: 0;
-  height: 100%;
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 0;
-  background: var(--cell-background);
-  color: var(--text);
-  font: inherit;
-  font-size: clamp(1rem, 5vw, 1.5rem);
-  text-align: center;
-  outline: none;
-  transition: background-color 120ms ease, color 180ms ease;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--cell-background);
+    color: var(--text);
+    font: inherit;
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    text-align: center;
+    outline: none;
+    transition: background-color 120ms ease, color 180ms ease;
 }
 
 .sudoku-cell:first-child {
-  border-left: 0;
+    border-left: 0;
 }
 
 .sudoku-row:first-child .sudoku-cell {
-  border-top: 0;
+    border-top: 0;
 }
 
 .sudoku-cell:nth-child(3n) {
-  border-right: 2px solid var(--strong-border);
+    border-right: 2px solid var(--strong-border);
 }
 
 .sudoku-cell:last-child {
-  border-right: 0;
+    border-right: 0;
 }
 
 .sudoku-row:nth-child(3n) .sudoku-cell {
-  border-bottom: 2px solid var(--strong-border);
+    border-bottom: 2px solid var(--strong-border);
 }
 
 .sudoku-row:last-child .sudoku-cell {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 .sudoku-cell.subgrid-shaded {
-  background: var(--subgrid-background);
+    background: var(--subgrid-background);
 }
 
 .sudoku-cell:focus {
-  position: relative;
-  z-index: 1;
-  background: var(--focus-background);
+    position: relative;
+    z-index: 1;
+    background: var(--focus-background);
 }
 
 .sudoku-cell:focus-visible,
 button:focus-visible,
 select:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: -3px;
+    outline: 3px solid var(--focus);
+    outline-offset: -3px;
 }
 
 .sudoku-cell.prefilled {
-  color: var(--prefilled-text);
-  font-weight: 700;
+    color: var(--prefilled-text);
+    font-weight: 700;
 }
 
 .sudoku-cell.hinted {
-  box-shadow: inset 0 0 0 2px var(--focus);
+    box-shadow: inset 0 0 0 2px var(--focus);
 }
 
 .sudoku-cell:disabled {
-  cursor: not-allowed;
-  opacity: 1;
+    cursor: not-allowed;
+    opacity: 1;
 }
 
 .sudoku-cell.incorrect {
-  background: var(--incorrect-background);
-  color: var(--incorrect-text);
+    background: var(--incorrect-background);
+    color: var(--incorrect-text);
 }
 
 .controls {
-  display: grid;
-  width: min(100%, 520px);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+    display: grid;
+    width: min(100%, 520px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
 .difficulty-control {
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--text);
-  font-weight: 600;
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--text);
+    font-weight: 600;
 }
 
 select {
-  min-width: 0;
-  min-height: 44px;
-  padding: 8px 30px 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 30px 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
 }
 
 button {
-  min-height: 44px;
-  padding: 10px 16px;
-  border: 0;
-  border-radius: 6px;
-  background: var(--button-background);
-  color: var(--button-text);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 120ms ease;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--button-background);
+    color: var(--button-text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 120ms ease;
 }
 
 button:hover {
-  background: var(--button-hover);
+    background: var(--button-hover);
 }
 
 button:disabled {
-  cursor: wait;
-  opacity: 0.7;
+    cursor: wait;
+    opacity: 0.7;
 }
 
 .theme-toggle {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
 }
 
 .theme-toggle:hover {
-  background: var(--subgrid-background);
+    background: var(--subgrid-background);
 }
 
 .message {
-  min-height: 1.5em;
-  margin: 4px 0 0;
-  grid-column: 1 / -1;
-  color: var(--message-text);
-  text-align: center;
+    min-height: 1.5em;
+    margin: 4px 0 0;
+    grid-column: 1 / -1;
+    color: var(--message-text);
+    text-align: center;
 }
 
 .message.error {
-  color: var(--incorrect-text);
+    color: var(--incorrect-text);
 }
 
 .message.success {
-  color: var(--success-text);
+    color: var(--success-text);
 }
 
 .leaderboard {
-  width: min(100%, 520px);
-  margin-top: 28px;
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
+    width: min(100%, 520px);
+    margin-top: 28px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
 }
 
 .leaderboard h2 {
-  margin: 0 0 16px;
-  font-size: 1.25rem;
+    margin: 0 0 16px;
+    font-size: 1.25rem;
 }
 
 .leaderboard-table-wrap {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 .leaderboard table {
-  width: 100%;
-  border-collapse: collapse;
-  color: var(--text);
-  text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text);
+    text-align: left;
 }
 
 .leaderboard th,
 .leaderboard td {
-  padding: 10px 8px;
-  border-bottom: 1px solid var(--border);
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
 }
 
 .leaderboard th {
-  color: var(--muted-text);
-  font-size: 0.875rem;
+    color: var(--muted-text);
+    font-size: 0.875rem;
 }
 
 .leaderboard tbody tr:nth-child(even) {
-  background: var(--subgrid-background);
+    background: var(--subgrid-background);
 }
 
 .leaderboard-empty {
-  margin: 14px 0 0;
-  color: var(--muted-text);
-  text-align: center;
+    margin: 14px 0 0;
+    color: var(--muted-text);
+    text-align: center;
 }
 
 .leaderboard-empty[hidden] {
-  display: none;
+    display: none;
 }
 
 .player-dialog {
-  width: min(calc(100% - 32px), 420px);
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-  color: var(--text);
-  box-shadow: var(--shadow);
+    width: min(calc(100% - 32px), 420px);
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
 }
 
 .player-dialog::backdrop {
-  background: rgb(0 0 0 / 55%);
+    background: rgb(0 0 0 / 55%);
 }
 
 .player-dialog form {
-  display: grid;
-  padding: 24px;
-  gap: 14px;
+    display: grid;
+    padding: 24px;
+    gap: 14px;
 }
 
 .player-dialog h2,
 .player-dialog p {
-  margin: 0;
+    margin: 0;
 }
 
 .player-dialog input {
-  width: 100%;
-  min-height: 44px;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--cell-background);
-  color: var(--text);
-  font: inherit;
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--cell-background);
+    color: var(--text);
+    font: inherit;
 }
 
 .player-dialog input:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 1px;
+    outline: 3px solid var(--focus);
+    outline-offset: 1px;
 }
 
 @media (max-width: 420px) {
-  .header-content {
-    min-height: 68px;
-    gap: 8px;
-  }
-
-  .theme-toggle {
-    padding: 9px 10px;
-    font-size: 0.875rem;
-  }
-
-  .game-container {
-    width: min(100% - 16px, 560px);
-  }
-
-  .controls {
-    grid-template-columns: 1fr;
-  }
-
-  .leaderboard {
-    padding: 14px;
-  }
-
-  .player-dialog form {
-    padding: 18px;
-  }
+    .header-content {
+        min-height: 68px;
+        gap: 8px;
+    }
+    .theme-toggle {
+        padding: 9px 10px;
+        font-size: 0.875rem;
+    }
+    .game-container {
+        width: min(100% - 16px, 560px);
+    }
+    .controls {
+        grid-template-columns: 1fr;
+    }
+    .leaderboard {
+        padding: 14px;
+    }
+    .player-dialog form {
+        padding: 18px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
 }
