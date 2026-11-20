@@ -217,6 +217,18 @@ select:focus-visible {
     color: var(--incorrect-text);
 }
 
+.sudoku-cell.invalid-entry {
+    background-color: #ffcccc !important;
+    color: #cc0000 !important;
+    font-weight: 700;
+}
+
+:root[data-theme="dark"] .sudoku-cell.invalid-entry {
+    background-color: #7f1d1d !important;
+    color: #fee2e2 !important;
+    font-weight: 700;
+}
+
 .controls {
     display: grid;
     width: min(100%, 520px);

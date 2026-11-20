@@ -188,12 +188,83 @@ function createBoardElement() {
             input.addEventListener('input', (e) => {
                 const val = e.target.value.replace(/[^1-9]/g, '');
                 e.target.value = val;
-                checkLocalConflicts();
+
+                // Clear all previous live conflict highlights
+                document
+                    .querySelectorAll('.sudoku-cell.invalid-entry')
+                    .forEach((cell) => cell.classList.remove('invalid-entry'));
+
+                // Re-check every filled cell on the current board
+                const currentBoard = getCurrentBoard();
+                for (let r = 0; r < SIZE; r++) {
+                    for (let c = 0; c < SIZE; c++) {
+                        const cellVal = currentBoard[r][c];
+                        if (cellVal > 0) {
+                            checkConflict(r, c, cellVal);
+                        }
+                    }
+                }
             });
             rowDiv.appendChild(input);
         }
         boardDiv.appendChild(rowDiv);
     }
+}
+
+function findConflicts(board, row, col, value) {
+    const conflicts = [];
+    if (!value || value < 1 || value > SIZE) {
+        return conflicts;
+    }
+
+    // Check same row
+    for (let c = 0; c < SIZE; c++) {
+        if (c !== col && board[row][c] === value) {
+            conflicts.push([row, c]);
+        }
+    }
+
+    // Check same column
+    for (let r = 0; r < SIZE; r++) {
+        if (r !== row && board[r][col] === value) {
+            conflicts.push([r, col]);
+        }
+    }
+
+    // Check same 3x3 box
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    for (let r = startRow; r < startRow + 3; r++) {
+        for (let c = startCol; c < startCol + 3; c++) {
+            if ((r !== row || c !== col) && board[r][c] === value) {
+                conflicts.push([r, c]);
+            }
+        }
+    }
+
+    // Highlight the newly entered/conflicting cell itself too
+    if (conflicts.length > 0) {
+        conflicts.push([row, col]);
+    }
+
+    return conflicts;
+}
+
+function checkConflict(row, col, value) {
+    const board = getCurrentBoard();
+    const conflicts = findConflicts(board, row, col, value);
+    conflicts.forEach(([r, c]) => {
+        const cell = getCellElement(r, c);
+        if (cell) {
+            cell.classList.add('invalid-entry');
+        }
+    });
+    return conflicts.length === 0;
+}
+
+function getCellElement(row, col) {
+    const inputs = document.getElementById('sudoku-board').getElementsByTagName('input');
+    return inputs[row * SIZE + col];
 }
 
 function renderPuzzle(puz) {
@@ -364,48 +435,5 @@ window.addEventListener('load', () => {
     updateThemeToggle();
     // initialize
     newGame();
-    // Local client-side safety check for live visual feedback on invalid moves
-    function checkLocalConflicts() {
-        const inputs = document.getElementById('sudoku-board').getElementsByTagName('input');
-        const board = getCurrentBoard();
 
-        // Clear existing conflict classes from user cells
-        for (let idx = 0; idx < inputs.length; idx++) {
-            if (!inputs[idx].disabled) {
-                inputs[idx].classList.remove('conflict', 'incorrect');
-            }
-        }
-
-        // Check each cell for row, col, or box conflicts
-        for (let r = 0; r < SIZE; r++) {
-            for (let c = 0; c < SIZE; c++) {
-                const val = board[r][c];
-                if (val === 0) continue;
-
-                // Temporarily clear to check safety
-                board[r][c] = 0;
-                if (!isSafeLocal(board, r, c, val)) {
-                    const index = r * SIZE + c;
-                    if (!inputs[index].disabled) {
-                        inputs[index].classList.add('conflict');
-                    }
-                }
-                board[r][c] = val;
-            }
-        }
-    }
-
-    function isSafeLocal(board, row, col, num) {
-        for (let x = 0; x < SIZE; x++) {
-            if (board[row][x] === num || board[x][col] === num) return false;
-        }
-        const startRow = row - (row % 3);
-        const startCol = col - (col % 3);
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (board[startRow + i][startCol + j] === num) return false;
-            }
-        }
-        return true;
-    }
 });
